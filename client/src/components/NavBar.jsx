@@ -8,19 +8,24 @@ const NavBar = () => {
   return (
     <nav className="bg-zinc-700 my-3 flex justify-between py-5 px-10 rounded-lg">
       <Link to="/">
-        <h1 className="text-2xl font-bold">TaskManager</h1>
+        <h1 className="text-2xl font-bold">Task Manager</h1>
       </Link>
       <ul className=" flex gap-x-2">
         {isAuthenticated ? (
           <>
             <li>Welcome {user.username}</li>
             <li>
-              <Link to="/add-task"  className="bg-indigo-400 px-4 py-1 rounded-sm">
+              <Link to="/add-task"  className="bg-indigo-400 px-4 py-1 rounded-sm mx-5">
                 Add task
               </Link>
             </li>
             <li>
-              <Link to="/" onClick={() => logout()} >
+              <Link to="/tasks" >
+                Tasks
+              </Link>
+            </li>
+            <li>
+              <Link to="/" onClick={() => logout()} className="ml-5">
                 Logout
               </Link>
             </li>

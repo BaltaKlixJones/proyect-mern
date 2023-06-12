@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTask } from "../context/TasksContext";
-const TaskFormPage = () => {
+import { useNavigate, useParams } from "react-router-dom";
 
-  const { register, handleSubmit } = useForm();
-  const { createTask } = useTask();
+const TaskFormPage = () => {
+  const { register, handleSubmit, setValue } = useForm();
+  const { createTask, getTask, updateTask } = useTask();
+  const params = useParams();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function loadTask() {
+      if (params.id) {
+        const task = await getTask(params.id);
+        setValue("title", task.title);
+        setValue("description", task.description);
+      }
+    }
+    loadTask();
+  }, [params.id]);
 
   const onSubmit = handleSubmit((data) => {
-    createTask(data);
-  });
+    if (params.id) {
+       updateTask(params.id, data);
+    } else {
+      createTask(data);
+    }
+      navigate("/tasks")
+  })
 
   return (
     <div className="bg-zinc-800 max-w-md p-10 rounded-md ">
